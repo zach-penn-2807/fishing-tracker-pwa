@@ -1,0 +1,16 @@
+{
+  "name": "Dad's Catch Log",
+  "short_name": "Catch Log",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F7F9F8",
+  "theme_color": "#1B7F5C",
+  "icons": [
+    {
+      "src": "/app/static/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
