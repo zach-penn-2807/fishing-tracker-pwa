@@ -1,44 +1,52 @@
 import streamlit as st
 
-from src.ui.pwa_helper import inject_pwa_head
 from src.database.db import init_db
+from src.ui.analytics_tab import render_analytics_tab
 from src.ui.log_tab import render_log_tab
-from src.ui.map_tab import render_map_tab
-from src.ui.stats_tab import render_stats_tab
+from src.ui.pwa_helper import inject_pwa_head
+from src.ui.sessions_tab import render_sessions_tab
 
 st.set_page_config(
-    page_title="Dad's Catch Log",
+    page_title="Carp Session & Swim Tracker",
     page_icon="🎣",
     layout="centered",
     initial_sidebar_state="collapsed",
 )
 
+inject_pwa_head()
+init_db()
+
 st.markdown(
     """
     <style>
-    .stButton > button {
-        min-height: 3.4rem;
-        font-size: 1.15rem;
-        font-weight: 700;
-    }
+        div.stButton > button {
+            min-height: 48px;
+            font-weight: 600;
+        }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-init_db()
+title_col, unit_col = st.columns([2.2, 1.3])
+with title_col:
+    st.title("🎣 Carp & Swim Log")
+with unit_col:
+    primary_unit = st.radio(
+        "Display Units",
+        options=["lb", "kg"],
+        format_func=lambda u: "lb / oz" if u == "lb" else "kg",
+        horizontal=True,
+        key="global_unit_toggle",
+    )
 
-inject_pwa_head()
-
-st.title("🎣 Catch Log")
-
-tab_log, tab_map, tab_stats = st.tabs(["Log Catch", "Map & Spots", "Trips & Stats"])
+tab_log, tab_sessions, tab_explore = st.tabs(["Log", "Sessions", "Explore"])
 
 with tab_log:
     render_log_tab()
 
-with tab_map:
-    render_map_tab()
+with tab_sessions:
+    render_sessions_tab(primary_unit=primary_unit)
 
-with tab_stats:
-    render_stats_tab()
+with tab_explore:
+    render_analytics_tab(primary_unit=primary_unit)
