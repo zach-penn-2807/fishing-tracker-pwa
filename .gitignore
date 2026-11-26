@@ -12,3 +12,7 @@ wheels/
 # Local SQLite database & secrets
 data/*.db
 .env
+
+# Legacy fishing notes ETL raw input and generated outputs
+scripts/etl/raw_notes.txt
+scripts/etl/output/
